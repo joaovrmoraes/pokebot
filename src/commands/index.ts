@@ -9,11 +9,11 @@ export const commands = [
   },
   {
     name: 'pokemon',
-    description: 'Replies with the pokemon name',
+    description: 'Replies with the pokemon name or id',
     options: [
       {
         name: 'pokemon',
-        description: 'The pokemon name',
+        description: 'The pokemon name or id',
         type: 3,
         required: true
       }
