@@ -1,6 +1,6 @@
 import { pokemonApi } from "@/lib/axios"
 
-export async function getPokemon(pokemon: string) {
+export async function getPokemon(pokemon: string|number) {
   try {
     const pokemonResponse = await pokemonApi.get(`pokemon/${pokemon}`)
     const pokemonSpecie = await pokemonApi.get(`pokemon-species/${pokemon}/`)

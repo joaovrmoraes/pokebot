@@ -2,6 +2,7 @@ import { Client, GatewayIntentBits, REST, Routes } from 'discord.js';
 import { env } from '@/env'
 import { commands } from './commands';
 import { interactions } from './middlewares';
+import { spanwPokemon } from './tasks/spawn-pokemon';
 
 const { TOKEN, CLIENT_ID } = env
 
@@ -31,7 +32,7 @@ client.once('ready', () => {
     return;
   }
 
-  channel.isTextBased() && channel.send('Bot is ready');
+  spanwPokemon({ channel });
 });
 
 (async () => {
