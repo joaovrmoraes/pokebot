@@ -1,5 +1,5 @@
 import { getPokemon } from "@/commands/get-pokemon";
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Channel } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Channel, ComponentType } from "discord.js";
 import { pokemonEmbed } from "@/components/pokemon-embed"
 
 export async function spanwPokemon({ channel }: { channel: Channel }) {
@@ -7,11 +7,33 @@ export async function spanwPokemon({ channel }: { channel: Channel }) {
 
   const pokemonData = await getPokemon(randomNumber);
 
-  if (channel.isTextBased()) {
-    const message = await channel.send({ components: [], embeds: [pokemonEmbed(pokemonData)], stickers: [] });
-    message.react('🔴');
+  const button = new ButtonBuilder()
+    .setCustomId('catch')
+    .setLabel('Catch')
+    .setStyle(ButtonStyle.Primary);
 
-    message.awaitReactions({ filter: (reaction, user) => reaction.emoji.name === '🔴' && user.id !== message.author.id, max: 1, time: 30000, errors: ['time'] })
+  const actionRow = new ActionRowBuilder().addComponents([button]).toJSON();
+
+  if (channel.isTextBased()) {
+    const message = await channel.send({ components: [actionRow], embeds: [pokemonEmbed(pokemonData)] });
+
+    const collector = message.createMessageComponentCollector({ componentType: ComponentType.Button });
+
+    collector.on('collect', async interaction => {
+      if (interaction.customId === 'catch') {
+        const randomNumber = Math.floor(Math.random() * 100) + 1;
+
+        if (randomNumber <= 100) {
+          await interaction.reply({ content: 'Você pegou o Pokémon!', ephemeral: true });
+        } else {
+          await interaction.reply({ content: 'O Pokémon escapou!', ephemeral: true });
+
+          await interaction.message.delete();
+        }
+
+        collector.stop();
+      }
+    });
 
   }
 }
