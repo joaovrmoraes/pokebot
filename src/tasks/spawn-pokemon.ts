@@ -1,6 +1,7 @@
 import { getPokemon } from "@/commands/get-pokemon";
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Channel, ComponentType } from "discord.js";
 import { pokemonEmbed } from "@/components/pokemon-embed"
+import { prisma } from "@/lib/prisma";
 
 export async function spanwPokemon({ channel }: { channel: Channel }) {
   const randomNumber = Math.floor(Math.random() * 151) + 1;
@@ -25,6 +26,15 @@ export async function spanwPokemon({ channel }: { channel: Channel }) {
 
         if (randomNumber <= 100) {
           await interaction.reply({ content: 'Você pegou o Pokémon!', ephemeral: true });
+
+          await prisma.pCPokemon.create({
+            data: {
+              name: pokemonData.name,
+              image: pokemonData.image,
+              userId: interaction.user.id,
+            }
+          });
+
         } else {
           await interaction.reply({ content: 'O Pokémon escapou!', ephemeral: true });
 

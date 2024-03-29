@@ -15,8 +15,6 @@ export async function getPokemon(pokemon: string|number) {
     const pokemonColor = pokemonSpecie.data.color.name
     const pokemonDescription = pokemonSpecie.data.flavor_text_entries[0].flavor_text
 
-
-
     return {
       id: pokemonId,
       name: pokemonName,
