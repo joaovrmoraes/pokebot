@@ -12,11 +12,13 @@
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.2.2",
     "eslint": "^8.57.0",
+    "prisma": "^5.11.0",
     "tsup": "^8.0.2",
     "tsx": "^4.7.1",
     "typescript": "^5.4.3"
   },
   "dependencies": {
+    "@prisma/client": "^5.11.0",
     "axios": "^1.6.8",
     "discord.js": "^14.14.1",
     "dotenv": "^16.4.5",
