@@ -1,5 +1,5 @@
 import { Interaction } from "discord.js"
-import { listPokemon } from '@/commands/list-pokemon'
+import { listPokemon } from '@/commands/get-pc-pokemon'
 
 export async function getPcPokemonsInteraction({
   interaction
@@ -19,7 +19,7 @@ export async function getPcPokemonsInteraction({
     }
 
     await interaction.reply({ content: 'Your pokemons in PC:', ephemeral: true })
-    await interaction.followUp({ content: pokemons.map(pokemon => `**${pokemon.name}**`).join('\n') })
+    await interaction.followUp({ content: pokemons.map(pokemon => `**${pokemon.name}**`).join('\n') , ephemeral: true })
   }
 
 }

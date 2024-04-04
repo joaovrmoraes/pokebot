@@ -11,20 +11,23 @@ export async function spanwPokemon({ channel }: { channel: Channel }) {
   const button = new ButtonBuilder()
     .setCustomId('catch')
     .setLabel('Catch')
-    .setStyle(ButtonStyle.Primary);
+    .setStyle(ButtonStyle.Danger);
 
   const actionRow = new ActionRowBuilder().addComponents([button]).toJSON();
 
+
   if (channel.isTextBased()) {
-    const message = await channel.send({ components: [actionRow], embeds: [pokemonEmbed(pokemonData)] });
+    const message = await channel.send({ components: [actionRow], embeds: [pokemonEmbed(pokemonData)], fetchReply: true });
 
     const collector = message.createMessageComponentCollector({ componentType: ComponentType.Button });
 
     collector.on('collect', async interaction => {
       if (interaction.customId === 'catch') {
-        const randomNumber = Math.floor(Math.random() * 100) + 1;
+        const randomNumber = Math.floor(Math.random() * 200) + 1;
 
-        if (randomNumber <= 100) {
+        console.log("randomNumber", randomNumber, "pokemonData.chance", pokemonData.chance)
+
+        if (randomNumber <= pokemonData.chance) {
           await interaction.reply({ content: 'Você pegou o Pokémon!', ephemeral: true });
 
           await prisma.pCPokemon.create({
@@ -38,7 +41,6 @@ export async function spanwPokemon({ channel }: { channel: Channel }) {
         } else {
           await interaction.reply({ content: 'O Pokémon escapou!', ephemeral: true });
 
-          await interaction.message.delete();
         }
 
         collector.stop();

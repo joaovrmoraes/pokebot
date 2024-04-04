@@ -14,6 +14,7 @@ export async function getPokemon(pokemon: string|number) {
     const pokemonWeight = pokemonData.weight
     const pokemonColor = pokemonSpecie.data.color.name
     const pokemonDescription = pokemonSpecie.data.flavor_text_entries[0].flavor_text
+    const pokemonChance = pokemonSpecie.data.capture_rate
 
     return {
       id: pokemonId,
@@ -22,7 +23,8 @@ export async function getPokemon(pokemon: string|number) {
       height: pokemonHeight,
       weight: pokemonWeight,
       color: pokemonColor,
-      description: pokemonDescription
+      description: pokemonDescription,
+      chance: pokemonChance
     }
   } catch (error: any) {
     if (error.response && error.response.status === 404) {
