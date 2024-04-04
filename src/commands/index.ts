@@ -18,5 +18,9 @@ export const commands = [
         required: true
       }
     ]
+  },
+  {
+    name: 'pc',
+    description: 'Replies yours pokemons in PC',
   }
 ]
